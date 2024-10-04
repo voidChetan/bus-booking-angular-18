@@ -1,0 +1,107 @@
+<div class="container">
+    <header class="my-4">
+        <h1 class="text-center">Bus Booking System</h1>
+    </header>
+
+    <!-- Search Form -->
+    <section>
+        <div class="container-fluid mt-5 d-flex justify-content-center">
+            <form class="search-form d-flex align-items-center shadow-lg">
+              <div class="row w-100 text-white">
+                <div class="col-md-3 d-flex align-items-center">
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-bus-front"></i></span>
+                     <select class="form-select" name="fromLocation" [(ngModel)]="serachObj.fromLocation">
+                        <option value="" selected> From Location</option>
+                        @for (item of locations$| async; track $index) {
+                            <option [value]="item.locationId"> {{item.locationName}}</option>
+                        }
+                     </select>
+                  </div>
+                </div>
+                <div class="col-md-1 text-center d-flex align-items-center justify-content-center">
+                  <i class="bi bi-arrow-left-right fs-3"></i>
+                </div>
+                <div class="col-md-3 d-flex align-items-center">
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-bus-front"></i></span>
+                    <select class="form-select" name="toLocation" [(ngModel)]="serachObj.toLocation">
+                        <option value="" selected>  To Location</option>
+                        @for (item of locations$| async; track $index) {
+                            <option [value]="item.locationId"> {{item.locationName}}</option>
+                        }
+                     </select>
+                  </div>
+                </div>
+                <div class="col-md-3 d-flex align-items-center">
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-calendar"></i></span>
+                    <input type="date" class="form-control"  name="travelDate"  [(ngModel)]="serachObj.travelDate" placeholder="Date"  >
+                  </div>
+                </div>
+                <div class="col-md-2 text-center">
+                  <button type="button" (click)="onSearch()" class="btn btn-light text-danger w-100">SEARCH BUSES</button>
+                </div>
+              </div>
+            </form>
+          </div>
+    </section>
+
+    <!-- Buses List -->
+    <section id="buses-list" class="my-4">
+        <h2>Available Buses</h2>
+
+        @if (busList.length ==0) {
+          <div class="row">
+            <div class="col-12 pt-5 text-center">
+              <p>Select From & to Location to Filter Bus</p>
+            </div>
+          </div>
+        } @else {
+          @for (item of busList; track $index) {
+            <div class="row">
+                <div class="col-12">
+                    <div class="card mb-3" style="background-color: #abb1b7;">
+                        <div class="row g-0">
+                          <div class="col-md-3 d-flex flex-column justify-content-center align-items-center">
+                            <h5 class="card-title">{{item.busName}}</h5>
+                            <p class="card-text">{{item.vendorName}}</p>
+                          </div>
+                          <div class="col-md-9">
+                            <div class="card-body row">
+                              <div class="col-md-2">
+                                <p class="card-text"><strong>{{item.departureTime | date:"hh:mm:ss"}}</strong></p>
+                                <p class="card-text">Departure</p>
+                              </div>
+                              <div class="col-md-2">
+                                <p class="card-text"><strong>16 hr</strong></p>
+                                <p class="card-text">Duration</p>
+                              </div>
+                              <div class="col-md-2">
+                                <p class="card-text"><strong>{{item.arrivalTime | date:"hh:mm:ss"}}</strong></p>
+                                <p class="card-text">Arrival</p>
+                                <p class="text-danger">{{item.arrivalTime | date:'dd-MM-yyyy'}}</p>
+                              </div>
+                              <div class="col-md-2">
+                                <p class="card-text"><strong>4.5</strong> ⭐</p>
+                                <p class="card-text">567 Ratings</p>
+                              </div>
+                              <div class="col-md-2">
+                                <p class="card-text"><strong>INR {{item.price}}</strong></p>
+                                <p class="card-text">{{item.availableSeats}} Seats available Out Of {{item.totalSeats}}</p>
+                              </div>
+                              <div class="col-md-2 text-end">
+                                <button class="btn btn-danger" [routerLink]="['/booking', item.scheduleId]"  routerLinkActive="router-link-active" >Book Seat</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        }
+       
+        
+    </section>
+</div>

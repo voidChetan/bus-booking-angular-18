@@ -1,0 +1,101 @@
+<section id="booking-form" class="my-4"  >
+    <div class="container mt-5">
+        <div class="row">
+            
+            <div class="col-4">
+                <div class="row">
+                    <div class="col-12 text-center">
+                       <h5> Bus Seats</h5>  
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4 text-center">
+                        <div class="seat reserved p-3 w-100">
+
+                        </div>
+                        Booked
+                    </div>
+                    <div class="col-4 text-center">
+                        <div class="seat available p-3 w-100">
+
+                        </div>
+                        Available
+                    </div>
+                    <div class="col-4 text-center">
+                        <div class="seat selected p-3 w-100">
+
+                        </div>
+                        Selection
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    @for (seatNo of seatArray; track $index) {
+
+                        @if(checkIfSeatBooked(seatNo) != -1) {
+                            <div class="col-3">
+                                <div class="seat reserved"> {{seatNo}}</div>
+                            </div>
+                        } @else {
+                            @if(checkIsSeatSelected(seatNo) != -1) {
+                                <div class="col-3">
+                                    <div class="seat selected" (click)="selectSeat(seatNo)"> {{seatNo}}</div>
+                                </div>
+                            } @else {
+                                <div class="col-3">
+                                    <div class="seat available" (click)="selectSeat(seatNo)"> {{seatNo}}</div>
+                                </div>
+                            }
+                            
+                        }
+                       
+                    }
+                    
+                     
+                </div>
+            </div>
+            <div class="col-8">
+                <h4>Passnger Details</h4>
+                @if (userSelectedSeatArray.length ==0) {
+                    <div class="row">
+                        <div class="col-12 pt-5 text-center">
+                          <p>Please Select Seats to Enter Passenger details</p>
+                        </div>
+                      </div>
+                } @else { 
+                    @for (item of userSelectedSeatArray; track $index) {
+                        <div class="row">
+                            <div class="col-3">
+                                <label>Passenger </label>
+                                <input type="text" [(ngModel)]="item.passengerName" class="form-control">
+                            </div>
+                            <div class="col-2">
+                                <label>Age</label>
+                                <input type="text"  [(ngModel)]="item.age" class="form-control">
+                            </div>
+                            <div class="col-2">
+                                <label>Gender</label>
+                                <select [(ngModel)]="item.gender" class="form-control">
+                                    <option value="Male">Male</option>
+                                    <option value="Fe-Male">Fe-Male</option>
+                                </select>
+                               
+                            </div>
+                            <div class="col-2">
+                                <label>Seat No</label>
+                                <input disabled type="text"  [(ngModel)]="item.seatNo" class="form-control">
+                            </div>
+                        </div>
+                    }
+                }
+                
+                   
+            </div>
+        </div> 
+        <div class="row">
+            <div class="col-12 text-center">
+                <button class="btn btn-danger" (click)="bookNow()">Book Now</button>
+            </div>
+        </div>
+      </div> 
+</section>
